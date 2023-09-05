@@ -1,0 +1,78 @@
+services:
+  app:
+    image: dhonnabhainb/iut-laravel
+    container_name: app-iut
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - ./app:/var/www/app
+      - ./.docker/php/php.ini:/usr/local/etc/php/conf.d/99-iut.ini
+      - ./.docker/ssh:/home/www/.ssh
+    networks:
+      - iut
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  nginx:
+    image: nginx:stable-alpine
+    container_name: nginx-iut
+    restart: unless-stopped
+    ports:
+      - 8051:80
+    volumes:
+      - ./app:/var/www/app
+      - ./.docker/nginx:/etc/nginx/conf.d:ro
+    networks:
+      - iut
+    depends_on:
+      - app
+
+  mysql:
+    container_name: mysql-iut
+    image: mysql:8.1
+    restart: unless-stopped
+    ports:
+      - 3310:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: iut
+      MYSQL_USER: iut
+      MYSQL_PASSWORD: iut
+    volumes:
+      - ./.docker/stores/mysql:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - iut
+
+  redis:
+    container_name: redis-iut
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - 6974:6973
+    volumes:
+      - ./.docker/stores/redis:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      timeout: 20s
+      retries: 10
+    networks:
+      - iut
+
+  mailpit:
+    container_name: mailpit-iut
+    image: axllent/mailpit:latest
+    restart: unless-stopped
+    ports:
+      - 8025:8025
+      - 1025:1025
+    networks:
+      - iut
+
+networks:
+  iut:
+    driver: bridge

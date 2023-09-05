@@ -1,0 +1,4 @@
+.docker/ssl
+.docker/stores
+.docker/ssh
+.DS_Store
