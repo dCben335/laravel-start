@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AddPasswordController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +16,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('test');
-});
+    return view('landing');
+})->name('landing');
+
+Route::get('/add-password', function () {
+    return view('add-password');
+})->name('add-password');
+
+
+Route::post('/test', [AddPasswordController::class, 'formValidation'])->name('test');
