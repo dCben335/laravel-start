@@ -1,8 +1,8 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AddPasswordController;
-
+use App\Http\Controllers\PasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,12 +16,24 @@ use App\Http\Controllers\AddPasswordController;
 */
 
 Route::get('/', function () {
-    return view('landing');
-})->name('landing');
+    return view('welcome');
+});
 
 Route::get('/add-password', function () {
     return view('add-password');
-})->name('add-password');
+})->name("add-password");
 
+Route::post('/add-password', [PasswordController::class, 'store'])->name("password-added");
+Route::get('/passwords', [PasswordController::class, 'show'])->name("passwords");
 
-Route::post('/test', [AddPasswordController::class, 'formValidation'])->name('test');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';

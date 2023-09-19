@@ -37,6 +37,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: iut
       MYSQL_USER: iut
+      MYSQL_DATABASE: iut
       MYSQL_PASSWORD: iut
     volumes:
       - ./.docker/stores/mysql:/var/lib/mysql

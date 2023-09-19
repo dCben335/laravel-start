@@ -15,9 +15,10 @@
 
     </head>
     <body class="antialiased">
-        <form action="{{ route('test') }}" method="POST">
+        <form action="{{ route('add-password') }}" method="POST">
             @csrf
             @method("POST")
+            
             <div>
                 <label>
                     <span>url du site</span>
