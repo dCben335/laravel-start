@@ -14,6 +14,10 @@ class Password extends Model
 
     protected $fillable = ['site', 'login', 'password', 'user_id'];
 
+    protected $casts = [
+        'password' => 'encrypted',
+    ];
+
     public function users(){
         return $this->belongsTo(User::class);
     }

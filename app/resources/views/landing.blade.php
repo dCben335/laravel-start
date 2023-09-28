@@ -12,6 +12,6 @@
 
     </head>
     <body class="antialiased">
-        <a href="{{ route("add-password") }}">Aller à la page d'ajout de mot de passe</a>
+        <a href="{{ route("password.add") }}">Aller à la page d'ajout de mot de passe</a>
     </body>
 </html>

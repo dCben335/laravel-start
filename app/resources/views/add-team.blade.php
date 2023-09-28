@@ -16,34 +16,13 @@
                         <div>
                             <label>
                                 <span>url du site</span>
-                                <input type="text" name="url" class="text-gray-800">
+                                <input type="text" name="name" class="text-gray-800">
                             </label>
-                            @error('url')
+                            @error('name')
                                 <small>{{ $message }}</small>
                             @enderror
                         </div>
 
-                        <div>
-                            <label>
-                                <span>login</span>
-                                <input type="text" name="login" class="text-gray-800">
-                            </label>
-                
-                            @error('login')
-                                <small>{{ $message }}</small>
-                            @enderror
-                        </div>
-
-                        <div>
-                            <label>
-                                <span>password</span>
-                                <input type="password" name="pwd" class="text-gray-800">
-                            </label>
-                
-                            @error('pwd')
-                                <small>{{ $message }}</small>
-                            @enderror
-                        </div>
             
                         <button type="submit">Submit</button>          
                     </form> 

@@ -21,10 +21,14 @@ Route::get('/', function () {
 
 Route::get('/add-password', function () {
     return view('add-password');
-})->name("add-password");
+})->name("password.add");
 
-Route::post('/add-password', [PasswordController::class, 'store'])->name("password-added");
-Route::get('/passwords', [PasswordController::class, 'show'])->name("passwords");
+Route::get('/change-password/{id}', [PasswordController::class, 'showOne'])->name("password.showOne");
+Route::post('/change-password/{id}', [PasswordController::class, 'update'])->name("password.updated");
+
+
+Route::get('/passwords', [PasswordController::class, 'show'])->name("password.show");
+Route::post('/add-password', [PasswordController::class, 'store'])->name("password.stored");
 
 Route::get('/dashboard', function () {
     return view('dashboard');

@@ -1,22 +1,43 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Landing Page</title>
+   
+      
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Dashboard') }}
+        </h2>
+    </x-slot>
 
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
 
+                    <h1 class="text-center">Password Page</h1>
 
-    </head>
-    <body class="antialiased">
-        @if ("passwords")
-            @foreach ($passwords as $password)
-                <h3>Login : {{ $password->login }}</h3>
-            @endforeach
-        @endif
-
-    </body>
-</html>
+                    @if ("datas")
+                        @foreach ($datas as $data)
+                            <article class="py-4">
+                                <h3 >Site : {{ $data->site }}</h3>
+                                <div>
+                                    <p>login:  {{ $data->login }}</span></p>
+                                    <p>password:  <a href="/change-password/{{ $data->id }}">{{ $data->password }}</a></span></p>
+                                    <p>date d'ajout:  {{ $data->created_at }}</span></p>
+                                    <p>date de MAJ:  {{ $data->updated_at }}</span></p>
+                                </div>
+                            </article>
+                        @endforeach
+                        @else 
+                            <h2></h2>
+                            
+                        
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+</x-app-layout>
+        
+              
+        
+        
