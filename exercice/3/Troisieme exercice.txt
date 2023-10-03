@@ -1,0 +1,23 @@
+# Troisième exercice
+
+Sur la branche **traduction-notifications** *basée sur la branche main post merge de la branche database de votre projet*, vous allez améliorer votre projet avec l'ajout de traduction et d'une notification mail / base de données.
+
+Pour cela, vous devrez implémenter les éléments suivants:
+
+- Modification de votre `.env` pour vous assurer que les valeurs suivantes sont présentes:
+	- MAIL_MAILER=smtp
+	- MAIL_HOST=mailpit-iut
+	- MAIL_PORT=1025
+- Mailpit est un client / serveur mail tournant dans Docker. Vous pouvez y accéder depuis [localhost:8025](http://localhost:8025)
+	- **Cela n'a aucune importance que l'adresse mail de l'utilisateur soit fictive**
+- Lorsqu'une personne est ajoutée à une équipe, une notification doit être envoyée à tous les autres membres
+	- **mail** avec son contenu provenant d'un fichier de traduction avec les informations suivantes:
+		- nom de l'utilisateur ajouté
+		- nom de l'utilisateur ayant ajouté
+		- date heure de l'ajout
+	- **base de données** avec les données suivantes
+		- nom de l'utilisateur ajouté
+		- nom de l'utilisateur ayant ajouté
+		- date heure de l'ajout
+- Ajouter la possibilité d'associer des mots de passe à n  teams
+	- Lorsque qu'un mot de passe est associé à une team / est modifié / est supprimé, une notification par mail et en base de donnée doit être envoyée à tous les membres de la team

@@ -9,13 +9,13 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <form action="{{ route('password.stored') }}" method="POST">
+                    <form action="{{ route('team.store') }}" method="POST">
                         @csrf
                         @method("POST")
                         
                         <div>
                             <label>
-                                <span>url du site</span>
+                                <span>Nom de la team</span>
                                 <input type="text" name="name" class="text-gray-800">
                             </label>
                             @error('name')

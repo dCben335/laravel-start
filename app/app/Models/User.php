@@ -46,10 +46,10 @@ class User extends Authenticatable
     ];
 
     public function teams() {
-        return $this->belongsToMany(Teams::class);
+        return $this->belongsToMany(Team::class);
     }
 
     public function passwords() : HasMany {
-        return $this->hasMany(Passwords::class);
+        return $this->hasMany(Password::class);
     }
 }

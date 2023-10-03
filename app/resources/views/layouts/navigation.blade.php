@@ -21,6 +21,12 @@
                     <x-nav-link :href="route('password.show')" :active="request()->routeIs('password.show')">
                         {{ __('List Passwords') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('team.add')" :active="request()->routeIs('team.add')">
+                        {{ __('Add Team') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('team.show')" :active="request()->routeIs('team.show')">
+                        {{ __('List Team') }}
+                    </x-nav-link>
                 </div>
             </div>
 

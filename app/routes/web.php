@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PasswordController;
+use App\Http\Controllers\TeamController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,16 +20,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/add-password', function () {
-    return view('add-password');
-})->name("password.add");
-
 Route::get('/change-password/{id}', [PasswordController::class, 'showOne'])->name("password.showOne");
 Route::post('/change-password/{id}', [PasswordController::class, 'update'])->name("password.updated");
 
-
+Route::get('/add-password', function () { return view('add-password'); })->name("password.add");
 Route::get('/passwords', [PasswordController::class, 'show'])->name("password.show");
 Route::post('/add-password', [PasswordController::class, 'store'])->name("password.stored");
+
+Route::get('/add-team', function () { return view('add-team'); })->name("team.add");
+Route::get('/teams', [TeamController::class, 'show'])->name("team.show");
+Route::post('/add-team', [TeamController::class, 'store'])->name("team.store");
 
 Route::get('/dashboard', function () {
     return view('dashboard');
