@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Add Password') }}
+            {{ __('team.store') }}
         </h2>
     </x-slot>
 
@@ -15,7 +15,7 @@
                         
                         <div>
                             <label>
-                                <span>Nom de la team</span>
+                                <span>{{ __('team.store_name') }}</span>
                                 <input type="text" name="name" class="text-gray-800">
                             </label>
                             @error('name')
@@ -24,7 +24,7 @@
                         </div>
 
             
-                        <button type="submit">Submit</button>          
+                        <button type="submit">{{ __('team.store_submit_button') }}</button>          
                     </form> 
                 </div>
             </div>

@@ -16,16 +16,16 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     <x-nav-link :href="route('password.add')" :active="request()->routeIs('password.add')">
-                        {{ __('Add Password') }}
+                        {{ __('password.store') }}
                     </x-nav-link>
                     <x-nav-link :href="route('password.show')" :active="request()->routeIs('password.show')">
-                        {{ __('List Passwords') }}
+                        {{ __('password.show') }}
                     </x-nav-link>
                     <x-nav-link :href="route('team.add')" :active="request()->routeIs('team.add')">
-                        {{ __('Add Team') }}
+                        {{ __('team.store') }}
                     </x-nav-link>
                     <x-nav-link :href="route('team.show')" :active="request()->routeIs('team.show')">
-                        {{ __('List Team') }}
+                        {{ __('team.show') }}
                     </x-nav-link>
                 </div>
             </div>

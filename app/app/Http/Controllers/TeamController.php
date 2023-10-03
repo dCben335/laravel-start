@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Team;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\TeamNotification;
 
 class TeamController extends Controller
 {
@@ -22,9 +23,11 @@ class TeamController extends Controller
                 'name' => $request->name,
             ]);
 
-            $user = User::find($userId);
-
+            $user = User::find($userId); 
             $user->teams()->syncWithoutDetaching([$team->id]);
+
+            $notification = new TeamNotification($user->name, "jean-paul", $team->name, now()->toDateTimeString());
+            $user->notify($notification);
 
         } else return redirect('/login');
 
@@ -36,7 +39,7 @@ class TeamController extends Controller
         $userId = Auth::user()->id;
         
         if ($userId) {
-            $user = User::find(1);
+            $user = User::find( $userId );
             $datas = $user->teams;
         
             return view('teams', ['datas' => $datas]);

@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Add Password') }}
+            {{ __('password.store') }}
         </h2>
     </x-slot>
 
@@ -15,7 +15,7 @@
                         
                         <div>
                             <label>
-                                <span>url du site</span>
+                                <span>{{  __('password.store_url') }}</span>
                                 <input type="text" name="url" class="text-gray-800">
                             </label>
                             @error('url')
@@ -25,7 +25,7 @@
 
                         <div>
                             <label>
-                                <span>login</span>
+                                <span>{{  __('password.store_login') }}</span>
                                 <input type="text" name="login" class="text-gray-800">
                             </label>
                 
@@ -36,7 +36,7 @@
 
                         <div>
                             <label>
-                                <span>password</span>
+                                <span>{{  __('password.store_password') }}</span>
                                 <input type="password" name="pwd" class="text-gray-800">
                             </label>
                 
@@ -45,7 +45,7 @@
                             @enderror
                         </div>
             
-                        <button type="submit">Submit</button>          
+                        <button type="submit">{{ __('password.store_submit_button') }}</button>          
                     </form> 
                 </div>
             </div>
