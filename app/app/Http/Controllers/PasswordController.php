@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Password;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
  
 class PasswordController extends Controller
@@ -38,7 +39,7 @@ class PasswordController extends Controller
         if ($userId) {
             $datas = Password::where('user_id', $userId)->get();
         
-            return view('passwords', ['datas' => $datas]);
+            return view('password/page', ['datas' => $datas]);
 
         } else return redirect('/login');
     }
@@ -48,13 +49,17 @@ class PasswordController extends Controller
 
         if ($userId) {
             $datas = Password::where('id', $id)->where('user_id', $userId)->first();
-        
-            return view('change-password', ['datas' => $datas]);
+            $teams = User::find($userId)->teams;
+            
+            return view('change-password', [
+                'datas' => $datas,
+                'teams' => $teams
+            ]);
 
         } else return redirect('/login');
     }
 
-    public function update(Request $request, int $id) {
+    public function updatePwd(Request $request, int $id) {
         $request->validate([
             'newpwd' => 'required|string'
         ]);
@@ -63,6 +68,10 @@ class PasswordController extends Controller
 
         return redirect('/passwords');
 
+    }
+
+    public function udpdateTeam(Request $request, int $id) {
+        dd('test');
     }
 
 }

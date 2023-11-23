@@ -15,10 +15,8 @@
                             <div>
                                 <p>{{ __('password.update_login') }} :  {{ $datas->login }}</span></p>
                                 
-                                <form action="{{ route('password.updated', $datas->id) }}" method="POST">
-                                    @csrf
-                                    @method("POST")
-                                    
+                                <form action="{{ route('password.updatePwd', $datas->id) }}" method="POST">
+                                    @csrf                                    
 
                                     <div>
                                         <label>
@@ -29,8 +27,7 @@
                                             <small>{{ $message }}</small>
                                         @enderror
                                     </div>
-            
-                        
+
                                     <button type="submit">{{ __('password.update_submit_button') }}</button>          
                                 </form> 
                             </div>
@@ -40,4 +37,29 @@
             </div>
         </div>
     </div>
+    @if ("teams")
+        <div class="py-12">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 text-gray-900 dark:text-gray-100">        
+                        <form action="{{ route('password.updateTeam', $datas->id) }}" method="POST">
+                            @csrf                                    
+
+                            @foreach ($teams as $team)
+                                <label>
+                                    <span>{{ $team->name }}</span>
+                                    <input type="checkbox" value="{{ $team->id }}">
+                                </label>
+                                @error($team->id)
+                                    <small>{{ $message }}</small>
+                                @enderror
+                            @endforeach
+                
+                            <button type="submit">{{ __('password.update_submit_button') }}</button>          
+                        </form> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 </x-app-layout>

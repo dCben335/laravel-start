@@ -13,14 +13,16 @@ class TeamNotification extends Notification
     private $addedUserName;
     private $addedByUserName;
     private $addedDateTime;
+    private $teamUrl;
     private $joinedTeam;
 
-    public function __construct(string $addedUserName, string $addedByUserName,string $joinedTeam ,string $addedDateTime)
+    public function __construct(string $addedUserName, string $addedByUserName, string $joinedTeam, string $teamUrl, string $addedDateTime)
     {
         $this->addedUserName = $addedUserName;
         $this->addedByUserName = $addedByUserName;
-        $this->addedDateTime = $addedDateTime;
         $this->joinedTeam = $joinedTeam;
+        $this->teamUrl = $teamUrl;
+        $this->addedDateTime = $addedDateTime;
     }
 
     /**
@@ -30,7 +32,7 @@ class TeamNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['mail', 'database'];
     }
 
     /**
@@ -39,11 +41,11 @@ class TeamNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->line('Une Nouvelle personne ajoutée à l\'équipe' . $this->joinedTeam)
+            ->line('Une Nouvelle personne ajoutée à l\'équipe ' . $this->joinedTeam)
             ->line('Nom de l\'utilisateur ajouté: ' . $this->addedUserName)
             ->line('Ajouté par: ' . $this->addedByUserName)
             ->line('Date et heure de l\'ajout: ' . $this->addedDateTime)
-            ->action('Voir l\'équipe', url('/'));
+            ->action('Voir l\'équipe', url($this->teamUrl));
     }
 
     /**

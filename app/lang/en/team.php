@@ -7,6 +7,11 @@ return [
 
     'show' => "Teams",
     'show_name' => 'Name of the team',
+
+    'invite' => "Invite someone",
+    'invite_name' => 'Name of the team',
+    'invite_submit_button' => "Make him joinded up the team",
+    'invite_no_user' => "There is no user left to invite",
 ];
 
 ?>

@@ -11,8 +11,7 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <form action="{{ route('team.store') }}" method="POST">
                         @csrf
-                        @method("POST")
-                        
+                                                
                         <div>
                             <label>
                                 <span>{{ __('team.store_name') }}</span>

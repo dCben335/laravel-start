@@ -21,16 +21,14 @@
                                 <h3 >Site : {{ $data->site }}</h3>
                                 <div>
                                     <p>{{  __('password.show_url') }}:  {{ $data->login }}</span></p>
-                                    <p>{{  __('password.show_password') }}:  <a href="/change-password/{{ $data->id }}">{{ $data->password }}</a></span></p>
-                                    <p>{{  __('password.show_creation') }}:  {{ $data->created_at }}</span></p>
-                                    <p>{{  __('password.show_update') }}:  {{ $data->updated_at }}</span></p>
+                                    <p><a href="/change-password/{{ $data->id }}">{{  __('password.show_password') }}: {{ $data->password }}</a></p>
+                                    <p>{{  __('password.show_creation') }}:  {{ $data->created_at }}</p>
+                                    <p>{{  __('password.show_update') }}:  {{ $data->updated_at }}</p>
                                 </div>
                             </article>
                         @endforeach
                         @else 
-                            <h2></h2>
-                            
-                        
+                            <h2></h2>                        
                     @endif
                 </div>
             </div>
