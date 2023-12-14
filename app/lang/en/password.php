@@ -19,6 +19,7 @@ return [
     'update_login' => "your login",
     'update_new-password' => "enter your new password",
     'update_submit_button' => "submit",
+    'update_link_teams' => "Link my password to a team",
 ];
 
 ?>

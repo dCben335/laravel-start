@@ -11,8 +11,8 @@ use Illuminate\View\View;
 
 class TeamController extends Controller
 {
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
+        // POST
         $request->validate([
             'name' => 'required|string|unique:teams',
         ]);
@@ -26,6 +26,7 @@ class TeamController extends Controller
 
             $user = User::find($userId); 
             $user->teams()->syncWithoutDetaching([$team->id]);
+
         } else return redirect('/login');
 
 
@@ -33,29 +34,34 @@ class TeamController extends Controller
     }
 
     public function show() {
+        // GET
+
         if (!Auth::user()) return redirect(route('login'));
         
         $userId = Auth::user()->id;
         $user = User::find( $userId );
         
-        return view('teams', ['datas' => $user->teams]);
+        return view('teams/page', ['datas' => $user->teams]);
     }
 
     public function showOne(int $id) { 
+        // GET
+
         $team = Team::where('id', $id)->first();
 
         if (Auth::user()) {
             $userId = Auth::user()->id;
-            if ($team->users->contains($userId)) return redirect('/team/'. $id .'/invite');
+            if ($team->users->contains($userId)) return redirect('/teams/'. $id .'/invite');
         }
 
-        return view('single-team', ['datas' => $team]);
+        return view('teams/single/page', ['datas' => $team]);
     }
 
     public function invitation(int $id) {
+        // GE
         if (!Auth::user()) return redirect(route('login'));
         
-        $user = User::find( Auth::user()->id);
+        $user = User::find(Auth::user()->id);
         
         if (!$user->teams->contains($id)) return redirect(route('login'));
 
@@ -67,15 +73,17 @@ class TeamController extends Controller
             if (!$team->users->contains($value)) array_push($usersToInvite, $value);
         }
         
-        return view('invite-team', [
+        return view('teams/single/invite', [
             'datas' => $team,
             'id' => $team->id,
-            'name' => $team->name,
+            "passwords" => $team->passwords,
             'peoples' => $usersToInvite
         ]);
     }
 
     public function invite(Request $request, int $id) {
+        // POST
+
         $request->validate([
             'person-to-invite' => 'required|int'
         ]); 
@@ -93,7 +101,8 @@ class TeamController extends Controller
         );
 
         foreach($team->users as $member) $member->notify($notif);
-        return redirect('/team/'. $id .'/invite');
+
+        return redirect('/teams/'. $id .'/invite');
     }
 
    

@@ -21,7 +21,7 @@
                                 <h3 >Site : {{ $data->site }}</h3>
                                 <div>
                                     <p>{{  __('password.show_url') }}:  {{ $data->login }}</span></p>
-                                    <p><a href="/change-password/{{ $data->id }}">{{  __('password.show_password') }}: {{ $data->password }}</a></p>
+                                    <p><a href="/passwords/{{ $data->id }}/update">{{  __('password.show_password') }}: {{ $data->password }}</a></p>
                                     <p>{{  __('password.show_creation') }}:  {{ $data->created_at }}</p>
                                     <p>{{  __('password.show_update') }}:  {{ $data->updated_at }}</p>
                                 </div>

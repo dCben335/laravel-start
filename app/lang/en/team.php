@@ -12,6 +12,7 @@ return [
     'invite_name' => 'Name of the team',
     'invite_submit_button' => "Make him joinded up the team",
     'invite_no_user' => "There is no user left to invite",
+    'invite_passwords' => "Passwords list of the team",
 ];
 
 ?>

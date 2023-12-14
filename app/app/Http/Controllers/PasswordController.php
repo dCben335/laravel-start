@@ -5,13 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Password;
+use App\Models\Team;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
  
 class PasswordController extends Controller
 {
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
+        // POST
+
+        if (!Auth::user()) return redirect(route('login'));
+
         $request->validate([
             'url' => 'required|string|url',
             'login' => 'required|string',
@@ -19,59 +23,85 @@ class PasswordController extends Controller
         ]);
 
         $userId = Auth::user()->id;
+        Password::create([
+            'site' => $request->url,
+            'login' => $request->login,
+            'password' => $request->pwd,
+            "user_id" => $userId,
+        ]);
 
-        if ($userId) {
-            Password::create([
-                'site' => $request->url,
-                'login' => $request->login,
-                'password' => $request->pwd,
-                "user_id" => $userId,
-            ]);
-        } else return redirect('/login');
-
-
-        return redirect('/passwords');
+        return redirect(route('password.show'));
     }
 
     public function show() {
+        // GET
+        if (!Auth::user()) return redirect(route('login'));
+
         $userId = Auth::user()->id;
-
-        if ($userId) {
-            $datas = Password::where('user_id', $userId)->get();
-        
-            return view('password/page', ['datas' => $datas]);
-
-        } else return redirect('/login');
+        $datas = Password::where('user_id', $userId)->get();
+    
+        return view('passwords/page', ['datas' => $datas]);
     }
 
     public function showOne(int $id) {
+        // GET
+        if (!Auth::user()) return redirect(route('login'));
+
         $userId = Auth::user()->id;
 
-        if ($userId) {
-            $datas = Password::where('id', $id)->where('user_id', $userId)->first();
-            $teams = User::find($userId)->teams;
-            
-            return view('change-password', [
-                'datas' => $datas,
-                'teams' => $teams
-            ]);
+        $password = Password::where('id', $id)->where('user_id', $userId)->first();
+        $userTeams = User::find($userId)->teams;
 
-        } else return redirect('/login');
+
+
+        $teamsWithPasswordShared = [];
+
+        foreach ($userTeams as $team) {
+            $teamPassword = $team->passwords()->where('id', $id)->first();
+            $team->isChecked = !is_null($teamPassword);
+            $teamsWithPasswordShared[] = $team;
+        }   
+        return view('passwords/single/update', [
+            'datas' => $password,
+            'teams' => $teamsWithPasswordShared
+        ]);
     }
 
     public function updatePwd(Request $request, int $id) {
+        // POST
+        if (!Auth::user()) return redirect(route('login'));
+
         $request->validate([
             'newpwd' => 'required|string'
         ]);
 
         Password::where(['id' => $id])->first()->update(['password' => $request->newpwd]);
 
-        return redirect('/passwords');
-
+        return redirect(route('password.show'));
     }
 
     public function udpdateTeam(Request $request, int $id) {
-        dd('test');
+        if (!Auth::user()) return redirect(route('login'));
+
+        $request->validate([
+            'team' => 'array'
+        ]);    
+
+        $user = User::find(Auth::user()->id);
+        $password = Password::where(['id' => $id])->first();
+
+        $userTeams = $user->teams;
+        $teamsNotToShare = $userTeams->pluck('id')->diff($request->team)->all();
+
+        if ($request->team) {
+            foreach($request->team as $team) {
+                $teamId = intval($team);
+                $password->teams()->syncWithoutDetaching([$teamId]);
+            }
+        }
+        foreach($teamsNotToShare as $teamId) $password->teams()->detach([$teamId]);
+
+        return redirect(route('password.show'));        
     }
 
 }

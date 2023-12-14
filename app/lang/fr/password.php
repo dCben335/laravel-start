@@ -19,6 +19,8 @@ return [
     'update_login' => "ton identifiant",
     'update_new-password' => "Entrez votre nouveau password",
     'update_submit_button' => "Enregistrer",
+    'update_link_teams' => "Lier mon mot de passe à des teams",
+    
 ];
 
 ?>

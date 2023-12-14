@@ -19,7 +19,7 @@
                         @foreach ($datas as $data)
                             <article class="py-4">
                                 <h3 >{{ __('team.show_name') }}  : 
-                                    <a href="/team/{{ $data->id }}">{{ $data->name }}</a>
+                                    <a href="/teams/{{ $data->id }}/invite">{{ $data->name }}</a>
                                 </h3>
                             </article>
                         @endforeach
