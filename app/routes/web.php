@@ -17,7 +17,7 @@ use App\Http\Controllers\TeamController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('landing');
 });
 
 Route::get('/passwords/{id}/update', [PasswordController::class, 'showOne'])->name("password.update");
