@@ -9,8 +9,41 @@ use App\Models\Team;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
  
-class PasswordController extends Controller
-{
+class PasswordController extends Controller {
+    public function create() {
+        // GET
+        return view('passwords/single/create');
+    }
+    public function show() {
+        // GET
+        $userId = Auth::user()->id;
+        $datas = Password::where('user_id', $userId)->get();
+    
+        return view('passwords/page', ['datas' => $datas]);
+    }
+
+    public function showOne(int $id) {
+        // GET
+        $userId = Auth::user()->id;
+
+        $password = Password::where('id', $id)->where('user_id', $userId)->first();
+        $userTeams = User::find($userId)->teams;
+
+        $teamsWithPasswordShared = [];
+
+        foreach ($userTeams as $team) {
+            $teamPassword = $team->passwords()->where('id', $id)->first();
+            $team->isChecked = !is_null($teamPassword);
+            $teamsWithPasswordShared[] = $team;
+        }  
+
+        return view('passwords/single/update', [
+            'datas' => $password,
+            'teams' => $teamsWithPasswordShared
+        ]);
+    }
+
+
     public function store(Request $request) {
         // POST
 
@@ -33,40 +66,7 @@ class PasswordController extends Controller
         return redirect(route('password.show'));
     }
 
-    public function show() {
-        // GET
-        if (!Auth::user()) return redirect(route('login'));
-
-        $userId = Auth::user()->id;
-        $datas = Password::where('user_id', $userId)->get();
-    
-        return view('passwords/page', ['datas' => $datas]);
-    }
-
-    public function showOne(int $id) {
-        // GET
-        if (!Auth::user()) return redirect(route('login'));
-
-        $userId = Auth::user()->id;
-
-        $password = Password::where('id', $id)->where('user_id', $userId)->first();
-        $userTeams = User::find($userId)->teams;
-
-
-
-        $teamsWithPasswordShared = [];
-
-        foreach ($userTeams as $team) {
-            $teamPassword = $team->passwords()->where('id', $id)->first();
-            $team->isChecked = !is_null($teamPassword);
-            $teamsWithPasswordShared[] = $team;
-        }   
-        return view('passwords/single/update', [
-            'datas' => $password,
-            'teams' => $teamsWithPasswordShared
-        ]);
-    }
-
+   
     public function updatePwd(Request $request, int $id) {
         // POST
         if (!Auth::user()) return redirect(route('login'));
@@ -104,6 +104,43 @@ class PasswordController extends Controller
         return redirect(route('password.show'));        
     }
 
+
+
+
+
+
+
+    public function download() {
+        $user = Auth::user();
+        $userId = $user->id;
+        
+        $passwords = Password::where('user_id', $userId)->get();
+
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="passwords.csv"',
+        ];
+
+        $callback = function () use ($passwords) {
+            $file = fopen('php://output', 'w');
+
+            fputcsv($file, ['site', 'login', 'Mot de passe', 'dernière date de modification', 'Team(s)']);
+
+            foreach ($passwords as $password) {            
+                fputcsv($file, [
+                    $password->site,
+                    $password->login,
+                    $password->password,
+                    $password->updated_at,
+                    $password->teams->implode('name', ' - ')
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
 }
 
 

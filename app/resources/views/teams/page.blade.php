@@ -18,7 +18,7 @@
                     @if ("datas")
                         @foreach ($datas as $data)
                             <article class="py-4">
-                                <h3 >{{ __('team.show_name') }}  : 
+                                <h3>{{ __('team.show_name') }}  : 
                                     <a href="/teams/{{ $data->id }}/invite">{{ $data->name }}</a>
                                 </h3>
                             </article>

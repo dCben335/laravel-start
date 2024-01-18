@@ -13,6 +13,8 @@ return [
     'show_password' => 'password',
     'show_creation' => 'creation date',
     'show_update' => 'last update date',
+    'show_edit' => 'edit',
+    'show_download' => 'download the list of passwords',
 
     'update' => "Update your password",
     'update_site' => "the website url",

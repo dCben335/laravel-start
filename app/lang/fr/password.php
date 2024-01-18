@@ -13,6 +13,8 @@ return [
     'show_password' => 'mot de psse',
     'show_creation' => 'date de creation',
     'show_update' => 'date de dernière modification',
+    'show_edit' => 'modifier',
+    'show_download' => 'télécharger la liste des mots de passes',
 
     'update' => "Moddifier votre password",
     'update_site' => "url du site",

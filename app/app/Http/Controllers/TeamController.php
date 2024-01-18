@@ -11,6 +11,41 @@ use Illuminate\View\View;
 
 class TeamController extends Controller
 {
+    public function create() {
+        // GET
+        return view('teams/single/create');
+    }
+
+    public function show() {
+        // GET        
+        $user = User::find(Auth::user()->id);
+        return view('teams/page', ['datas' => $user->teams]);
+    }
+
+    public function invitation(int $id) {
+        // GET
+        
+        $user = User::find(Auth::user()->id);
+
+        if (!$user->teams->contains($id)) return redirect(route('login'));
+
+        $team = Team::find($id);
+        
+        $allUsers = User::all();
+        $usersToInvite = array(); 
+        foreach ($allUsers as $key => $value) {
+            if (!$team->users->contains($value)) array_push($usersToInvite, $value);
+        }
+        
+        return view('teams/single/invite', [
+            'datas' => $team,
+            'id' => $team->id,
+            "passwords" => $team->passwords,
+            'peoples' => $usersToInvite
+        ]);
+    }
+
+
     public function store(Request $request) {
         // POST
         $request->validate([
@@ -33,53 +68,7 @@ class TeamController extends Controller
         return redirect('/teams');
     }
 
-    public function show() {
-        // GET
 
-        if (!Auth::user()) return redirect(route('login'));
-        
-        $userId = Auth::user()->id;
-        $user = User::find( $userId );
-        
-        return view('teams/page', ['datas' => $user->teams]);
-    }
-
-    public function showOne(int $id) { 
-        // GET
-
-        $team = Team::where('id', $id)->first();
-
-        if (Auth::user()) {
-            $userId = Auth::user()->id;
-            if ($team->users->contains($userId)) return redirect('/teams/'. $id .'/invite');
-        }
-
-        return view('teams/single/page', ['datas' => $team]);
-    }
-
-    public function invitation(int $id) {
-        // GE
-        if (!Auth::user()) return redirect(route('login'));
-        
-        $user = User::find(Auth::user()->id);
-        
-        if (!$user->teams->contains($id)) return redirect(route('login'));
-
-        $team = Team::find($id);
-        
-        $allUsers = User::all();
-        $usersToInvite = array(); 
-        foreach ($allUsers as $key => $value) {
-            if (!$team->users->contains($value)) array_push($usersToInvite, $value);
-        }
-        
-        return view('teams/single/invite', [
-            'datas' => $team,
-            'id' => $team->id,
-            "passwords" => $team->passwords,
-            'peoples' => $usersToInvite
-        ]);
-    }
 
     public function invite(Request $request, int $id) {
         // POST
