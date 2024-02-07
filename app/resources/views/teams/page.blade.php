@@ -1,6 +1,5 @@
 
-   
-      
+ 
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
@@ -15,16 +14,15 @@
                     
                     <h1 class="text-center"> {{ __('team.show') }} </h1>
 
-                    @if ("datas")
+                    @if ($datas->count() > 0)
                         @foreach ($datas as $data)
-                            <article class="py-4">
-                                <h3>{{ __('team.show_name') }}  : 
-                                    <a href="/teams/{{ $data->id }}/invite">{{ $data->name }}</a>
-                                </h3>
+                            <article class="py-4 relative">
+                                <a href="{{ route("team.invitation", $data->id) }}" class="absolute right-0">{{ __('team.show_edit') }}</a>
+                                <h3>{{ __('team.show_name') }} : {{ $data->name }}</h3>
                             </article>
                         @endforeach
                         @else 
-                            <h2></h2>                    
+                            <h2>{{ __('team.show_no_teams') }}</h2>                    
                     @endif
                 </div>
             </div>

@@ -15,6 +15,7 @@ return [
     'show_update' => 'date de dernière modification',
     'show_edit' => 'modifier',
     'show_download' => 'télécharger la liste des mots de passes',
+    'show_no_passwords' => "Il n'y a pas de mot de passe pour le moment",
 
     'update' => "Moddifier votre password",
     'update_site' => "url du site",

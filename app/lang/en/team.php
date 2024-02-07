@@ -7,6 +7,8 @@ return [
 
     'show' => "Teams",
     'show_name' => 'Name of the team',
+    'show_edit' => 'edit',
+    'show_no_teams' => "There is no team for the moment",
 
     'invite' => "Invite someone",
     'invite_name' => 'Name of the team',

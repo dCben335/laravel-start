@@ -11,20 +11,19 @@ use Illuminate\View\View;
 
 class TeamController extends Controller
 {
-    public function create() {
+    public function create(): View {
         // GET
         return view('teams/single/create');
     }
 
-    public function show() {
+    public function show(): View {
         // GET        
         $user = User::find(Auth::user()->id);
         return view('teams/page', ['datas' => $user->teams]);
     }
 
-    public function invitation(int $id) {
+    public function invitation(int $id): View {
         // GET
-        
         $user = User::find(Auth::user()->id);
 
         if (!$user->teams->contains($id)) return redirect(route('login'));
@@ -52,20 +51,14 @@ class TeamController extends Controller
             'name' => 'required|string|unique:teams',
         ]);
 
-        $userId = Auth::user()->id;
+        $team = Team::create([
+            'name' => $request->name,
+        ]);
 
-        if ($userId) {
-            $team = Team::create([
-                'name' => $request->name,
-            ]);
+        $user = User::find(Auth::user()->id); 
+        $user->teams()->syncWithoutDetaching([$team->id]);
 
-            $user = User::find($userId); 
-            $user->teams()->syncWithoutDetaching([$team->id]);
-
-        } else return redirect('/login');
-
-
-        return redirect('/teams');
+        return redirect(route('team.show'));
     }
 
 
@@ -82,16 +75,16 @@ class TeamController extends Controller
         $team = Team::find($id);
 
         $notif = new TeamNotification(
-            User::find( Auth::user()->id)->name, 
             $added->name, 
+            User::find( Auth::user()->id)->name, 
             $team->name, 
-            'http://localhost:8051/team/'. $id,
+            route("team.invitation", $id),
             now()->toDateTimeString()
         );
 
         foreach($team->users as $member) $member->notify($notif);
 
-        return redirect('/teams/'. $id .'/invite');
+        return redirect(route('team.invitation', $id));
     }
 
    

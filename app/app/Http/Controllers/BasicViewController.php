@@ -2,17 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Contracts\View\View;
 
-class BasicViewController extends Controller
-{
-    public function index() {
+class BasicViewController extends Controller {
+    public function index() : View {
         return view('landing');
     }
 
-    public function dashboard() {
+    public function dashboard() : View {
         return view('dashboard');
     }
-
-    
 }

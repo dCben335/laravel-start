@@ -15,6 +15,7 @@ return [
     'show_update' => 'last update date',
     'show_edit' => 'edit',
     'show_download' => 'download the list of passwords',
+    'show_no_passwords' => "There is no password for the moment",
 
     'update' => "Update your password",
     'update_site' => "the website url",

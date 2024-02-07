@@ -26,7 +26,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/passwords', [PasswordController::class, 'show'])->name("password.show");
     Route::get('/passwords/create', [PasswordController::class, 'create'])->name("password.add");
     Route::post('/passwords/create', [PasswordController::class, 'store'])->name("password.stored");
-    Route::get('/passwords/{id}/update', [PasswordController::class, 'showOne'])->name("password.update");
+    Route::get('/passwords/{id}/update', [PasswordController::class, 'showOne'])->name("password.updates");
     Route::post('/passwords/{id}/update/password', [PasswordController::class, 'updatePwd'])->name("password.updatePwd");
     Route::post('/passwords/{id}/update/team', [PasswordController::class, 'udpdateTeam'])->name("password.updateTeam");
     Route::get('/passwords/download', [PasswordController::class, 'download'])->name("password.download");

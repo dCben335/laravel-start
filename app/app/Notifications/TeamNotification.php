@@ -41,11 +41,11 @@ class TeamNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->line('Une Nouvelle personne ajoutée à l\'équipe ' . $this->joinedTeam)
-            ->line('Nom de l\'utilisateur ajouté: ' . $this->addedUserName)
-            ->line('Ajouté par: ' . $this->addedByUserName)
-            ->line('Date et heure de l\'ajout: ' . $this->addedDateTime)
-            ->action('Voir l\'équipe', url($this->teamUrl));
+            ->line(__('notifications.added_to') . ' ' . $this->joinedTeam)
+            ->line(__('notifications.added_user') . ' ' . $this->addedUserName)
+            ->line(__('notifications.added_by') . ' ' . $this->addedByUserName)
+            ->line(__('notifications.added_at') . ' ' . $this->addedDateTime)
+            ->action(__('notifications.added_button'), url($this->teamUrl));
     }
 
     /**
@@ -55,7 +55,7 @@ class TeamNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'message' => 'Nouvelle personne ajoutée à l\'équipe',
+            'message' => __('notifications.added_to') . ' ' . $this->joinedTeam,
             'added_user_name' => $this->addedUserName,
             'added_by_user_name' => $this->addedByUserName,
             'added_datetime' => $this->addedDateTime,

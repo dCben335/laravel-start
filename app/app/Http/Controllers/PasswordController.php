@@ -8,13 +8,16 @@ use App\Models\Password;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
- 
+use Illuminate\View\View;
+
 class PasswordController extends Controller {
-    public function create() {
+    public function create(): View {
         // GET
         return view('passwords/single/create');
     }
-    public function show() {
+
+
+    public function show(): View {
         // GET
         $userId = Auth::user()->id;
         $datas = Password::where('user_id', $userId)->get();
@@ -22,7 +25,7 @@ class PasswordController extends Controller {
         return view('passwords/page', ['datas' => $datas]);
     }
 
-    public function showOne(int $id) {
+    public function showOne(int $id): View {
         // GET
         $userId = Auth::user()->id;
 
@@ -46,21 +49,17 @@ class PasswordController extends Controller {
 
     public function store(Request $request) {
         // POST
-
-        if (!Auth::user()) return redirect(route('login'));
-
         $request->validate([
             'url' => 'required|string|url',
             'login' => 'required|string',
             'pwd' => 'required|string'
         ]);
 
-        $userId = Auth::user()->id;
         Password::create([
             'site' => $request->url,
             'login' => $request->login,
             'password' => $request->pwd,
-            "user_id" => $userId,
+            "user_id" => Auth::user()->id,
         ]);
 
         return redirect(route('password.show'));
@@ -69,8 +68,6 @@ class PasswordController extends Controller {
    
     public function updatePwd(Request $request, int $id) {
         // POST
-        if (!Auth::user()) return redirect(route('login'));
-
         $request->validate([
             'newpwd' => 'required|string'
         ]);
@@ -81,8 +78,6 @@ class PasswordController extends Controller {
     }
 
     public function udpdateTeam(Request $request, int $id) {
-        if (!Auth::user()) return redirect(route('login'));
-
         $request->validate([
             'team' => 'array'
         ]);    
@@ -103,11 +98,6 @@ class PasswordController extends Controller {
 
         return redirect(route('password.show'));        
     }
-
-
-
-
-
 
 
     public function download() {
