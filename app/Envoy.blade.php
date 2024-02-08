@@ -12,6 +12,7 @@
     cd /home/benoit-cabocel/benoit-cabocel.dhonnabhain.me/app
 
     git fetch --all
+    git checkout production
     git reset --hard origin/production
 @endtask
 
